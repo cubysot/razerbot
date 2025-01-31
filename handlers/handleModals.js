@@ -17,7 +17,7 @@ function getNextTicketNumber() {
 module.exports = {
   tickets,
   handleTicketModal: async (interaction) => {
-    await interaction.deferReply({ flags: 'Ephemeral' });
+    await interaction.deferReply({ flags: 'Ephemeral' }); // Cambiado de `ephemeral: true` a `flags: 'Ephemeral'`
     
     const category = userSelections.get(interaction.user.id);
     if (!category) {
@@ -26,34 +26,37 @@ module.exports = {
     
     const description = interaction.fields.getTextInputValue('description');
 
+    // Determinar si es categoría pública o privada
+    const isPublic = TICKET_CONFIG.PUBLIC_CATEGORIES.includes(category.toUpperCase()); // Ahora funciona porque es un array
+    const targetRole = isPublic ? TICKET_CONFIG.STAFF_ROLE : TICKET_CONFIG.ADMIN_ROLE;
+
+    // Buscar o crear la categoría específica
     let categoryChannel = interaction.guild.channels.cache.find(c => 
-      c.name === TICKET_CONFIG.TICKETS_CATEGORY && c.type === 4
+      c.name === category.toUpperCase() && c.type === 4
     );
     
     if (!categoryChannel) {
       categoryChannel = await interaction.guild.channels.create({
-        name: TICKET_CONFIG.TICKETS_CATEGORY,
-        type: 4
+        name: category.toUpperCase(),
+        type: 4,
+        permissionOverwrites: [
+          {
+            id: interaction.guild.id,
+            deny: ['ViewChannel']
+          },
+          {
+            id: targetRole,
+            allow: ['ViewChannel', 'ManageChannels']
+          }
+        ]
       });
     }
 
-    const isPrivate = TICKET_CONFIG.PRIVATE_CATEGORIES.includes(category.toUpperCase());
     const overwrites = [
       { id: interaction.guild.id, deny: ['ViewChannel'] },
-      { id: interaction.user.id, allow: ['ViewChannel', 'SendMessages'] }
+      { id: interaction.user.id, allow: ['ViewChannel', 'SendMessages'] },
+      { id: targetRole, allow: ['ViewChannel', 'SendMessages', 'ManageMessages'] }
     ];
-
-    if (isPrivate) {
-      overwrites.push({
-        id: TICKET_CONFIG.ADMIN_ROLE,
-        allow: ['ViewChannel', 'SendMessages']
-      });
-    } else {
-      overwrites.push({
-        id: TICKET_CONFIG.STAFF_ROLE,
-        allow: ['ViewChannel', 'SendMessages']
-      });
-    }
 
     const ticketNumber = getNextTicketNumber();
     const ticketId = `ticket-${ticketNumber}`;
@@ -61,14 +64,16 @@ module.exports = {
       name: ticketId,
       type: 0,
       parent: categoryChannel.id,
-      permissionOverwrites: overwrites
+      permissionOverwrites: overwrites,
+      topic: `Ticket de ${category} - Usuario: ${interaction.user.tag}`
     });
 
     tickets[ticketId] = {
       user: interaction.user.id,
       category: category,
       description: description,
-      created: Date.now()
+      created: Date.now(),
+      parentCategory: categoryChannel.id
     };
 
     const embed = new EmbedBuilder()
@@ -78,6 +83,7 @@ module.exports = {
         { name: 'Categoría', value: category.toUpperCase(), inline: true },
         { name: 'Descripción', value: description }
       )
+      .setFooter({ text: `Categoría: ${categoryChannel.name}` })
       .setColor(0x5865F2);
 
     const userButton = new ButtonBuilder()
@@ -87,11 +93,11 @@ module.exports = {
       .setEmoji('🔒');
 
     await channel.send({
-      content: `${interaction.user} ${isPrivate ? `<@&${TICKET_CONFIG.ADMIN_ROLE}>` : `<@&${TICKET_CONFIG.STAFF_ROLE}>`}`,
+      content: `${interaction.user} <@&${targetRole}>`,
       embeds: [embed],
       components: [new ActionRowBuilder().addComponents(userButton)]
     });
 
-    await interaction.editReply(`✅ Ticket creado: ${channel}`);
+    await interaction.editReply(`✅ Ticket creado en la categoría ${categoryChannel}: ${channel}`);
   }
 };

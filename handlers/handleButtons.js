@@ -17,7 +17,7 @@ module.exports = {
     
     await interaction.reply({
       content: responses[interaction.customId],
-      ephemeral: true
+      flags: 'Ephemeral' // Cambiado de `ephemeral: true` a `flags: 'Ephemeral'`
     });
   },
 
@@ -28,7 +28,7 @@ module.exports = {
     if (!ticket) {
       return interaction.reply({
         content: '❌ No se pudo encontrar la información del ticket',
-        ephemeral: true
+        flags: 'Ephemeral' // Cambiado de `ephemeral: true` a `flags: 'Ephemeral'`
       });
     }
 
@@ -87,6 +87,15 @@ module.exports = {
           ViewChannel: true,
           SendMessages: true
         });
+        
+        // Obtener la categoría padre
+        const parentCategory = interaction.guild.channels.cache.get(ticket.parentCategory);
+        if (parentCategory) {
+          await parentCategory.permissionOverwrites.edit(ticket.user, {
+            ViewChannel: true
+          });
+        }
+      
         await interaction.update({ components: [] });
         break;
     }

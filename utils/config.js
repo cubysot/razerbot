@@ -1,10 +1,9 @@
 module.exports = {
   TICKET_CONFIG: {
-    PUBLIC_CATEGORIES: ['COMPRAS', 'PERDIDA DE ITEMS', 'GENERAL', 'BUGS', 'CUENTA', 'RANGO MEDIA'],
-    PRIVATE_CATEGORIES: ['STAFF', 'GUIA', 'ADMIN'],
-    STAFF_ROLE: '1334373251924889610',
-    ADMIN_ROLE: '1334048866802204692',
-    TICKETS_CATEGORY: 'Tickets'
+    PUBLIC_CATEGORIES: ['PERDIDA DE ITEMS', 'GENERAL', 'BUGS', 'RANGO MEDIA'], // Array de categorías públicas
+    PRIVATE_CATEGORIES: ['CUENTA', 'RANGOS/COMPRAS'], // Array de categorías privadas
+    STAFF_ROLE: '1226407593329561663', // Rol de staff
+    ADMIN_ROLE: '1226407332909551637' // Rol de admin
   },
   IP_DATA: {
     JAVA: 'razercraft.me',
