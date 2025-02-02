@@ -1,0 +1,123 @@
+      /* Estilos base */
+      body {
+          background: #36393f;
+          color: #dcddde;
+          font-family: 'Whitney', sans-serif;
+          padding: 20px;
+          margin: 0;
+      }
+
+      /* Contenedor principal */
+      .container {
+          max-width: 800px;
+          margin: 0 auto;
+      }
+
+      /* Estilos para cada mensaje */
+      .message {
+          display: flex;
+          margin: 15px 0;
+          padding: 15px;
+          background: #2f3136;
+          border-radius: 8px;
+      }
+
+      /* Avatar del usuario */
+      .avatar {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          margin-right: 15px;
+          flex-shrink: 0;
+      }
+
+      /* Contenido del mensaje */
+      .content {
+          flex-grow: 1;
+          min-width: 0;
+      }
+
+      /* Información del usuario */
+      .user-info {
+          color: #fff;
+          font-weight: bold;
+          margin-bottom: 5px;
+      }
+
+      .timestamp {
+          color: #72767d;
+          font-size: 0.8em;
+          margin-left: 8px;
+      }
+
+      /* Texto del mensaje */
+      .message-text {
+          word-wrap: break-word;
+          white-space: pre-wrap;
+      }
+
+      /* Contenedor de archivos adjuntos */
+      .attachments {
+          margin-top: 10px;
+      }
+
+      /* Estilos para imágenes */
+      .attachment-image {
+          max-width: 100%;
+          border-radius: 5px;
+          margin: 5px 0;
+          cursor: pointer;
+          transition: transform 0.2s;
+      }
+
+      .attachment-image:hover {
+          transform: scale(1.02);
+      }
+
+      /* Estilos para videos */
+      .attachment-video {
+          max-width: 100%;
+          border-radius: 5px;
+          margin: 5px 0;
+      }
+
+      /* Estilos para audio */
+      .attachment-audio {
+          width: 100%;
+          margin: 5px 0;
+      }
+
+      /* Estilos para embeds */
+      .embed {
+          background: #2f3136;
+          border-left: 4px solid #202225;
+          padding: 10px;
+          margin: 5px 0;
+          border-radius: 4px;
+      }
+
+      .embed-title {
+          color: #fff;
+          font-weight: bold;
+          margin-bottom: 5px;
+      }
+
+      .embed-description {
+          color: #dcddde;
+      }
+
+      .embed-image {
+          max-width: 100%;
+          border-radius: 5px;
+          margin-top: 10px;
+      }
+
+      /* Estilos para enlaces de descarga */
+      .download-link {
+          color: #00aff4;
+          text-decoration: none;
+      }
+
+      .download-link:hover {
+          text-decoration: underline;
+      }

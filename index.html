@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RazerCraft</title>
-    <link rel="stylesheet" href="./src/style.css">
+    <link rel="stylesheet" href="https://razerbot.vercel.app/src/style.css">
 </head>
 
 <body>
@@ -87,15 +87,21 @@
             <div class="user-controls">
                 <!-- Botón de micrófono -->
                 <button class="control-btn" title="Micrófono">
-                    <img class="microfono" src="https://raw.githubusercontent.com/cubysot/razerbot/refs/heads/main/assets/microphone.svg" alt="Micrófono">
+                    <img class="microfono"
+                        src="https://raw.githubusercontent.com/cubysot/razerbot/refs/heads/main/assets/microphone.svg"
+                        alt="Micrófono">
                 </button>
                 <!-- Botón de auriculares -->
                 <button class="control-btn" title="Auriculares">
-                    <img class="audifonos" src="https://raw.githubusercontent.com/cubysot/razerbot/refs/heads/main/assets/headphone.svg" alt="Auricolares">
+                    <img class="audifonos"
+                        src="https://raw.githubusercontent.com/cubysot/razerbot/refs/heads/main/assets/headphone.svg"
+                        alt="Auricolares">
                 </button>
                 <!-- Botón de ajustes -->
                 <button class="control-btn" title="Ajustes">
-                    <img class="ajustes" src="https://raw.githubusercontent.com/cubysot/razerbot/refs/heads/main/assets/settings.svg" alt="Ajustes">
+                    <img class="ajustes"
+                        src="https://raw.githubusercontent.com/cubysot/razerbot/refs/heads/main/assets/settings.svg"
+                        alt="Ajustes">
                 </button>
             </div>
         </div>
@@ -103,10 +109,52 @@
 
     <!-- Área de transcripción (contenido de mensajes, por ejemplo) -->
     <div class="transcription-container">
-        <!-- Aquí se mostrarán los mensajes -->
+        <div class="container">
+            <h1>Transcripción de ${channel.name}</h1>
+            ${messages.reverse().map(msg => `
+            <div class="message">
+                <img src="${msg.author.displayAvatarURL({ size: 512 })}" class="avatar">
+                <div class="content">
+                    <div class="user-info">
+                        ${msg.author.username}
+                        <span class="timestamp">${msg.createdAt.toLocaleString()}</span>
+                    </div>
+                    ${msg.content ? `<div class="message-text">${msg.content}</div>` : ''}
+                    ${msg.attachments.size > 0 ? `
+                    <div class="attachments">
+                        ${[...msg.attachments.values()].map(att => {
+                        if (att.contentType?.startsWith('image/')) {
+                        return `<img src="${att.url}" class="attachment-image">`;
+                        } else if (att.contentType?.startsWith('video/')) {
+                        return `
+                        <video controls class="attachment-video">
+                            <source src="${att.url}" type="${att.contentType}">
+                            Tu navegador no soporta la reproducción de video.
+                        </video>`;
+                        } else if (att.contentType?.startsWith('audio/')) {
+                        return `
+                        <audio controls class="attachment-audio">
+                            <source src="${att.url}" type="${att.contentType}">
+                            Tu navegador no soporta la reproducción de audio.
+                        </audio>`;
+                        } else {
+                        return `<a href="${att.url}" download="${att.name}" class="download-link">Descargar archivo:
+                            ${att.name}</a>`;
+                        }
+                        }).join('')}
+                    </div>` : ''}
+                    ${msg.embeds.map(embed => `
+                    <div class="embed">
+                        ${embed.title ? `<div class="embed-title">${embed.title}</div>` : ''}
+                        ${embed.description ? `<div class="embed-description">${embed.description}</div>` : ''}
+                        ${embed.image ? `<img src="${embed.image.url}" class="embed-image">` : ''}
+                    </div>`).join('')}
+                </div>
+            </div>`).join('')}
+        </div>
     </div>
 
-    <script src="./src/main.js"></script>
+    <script src="https://razerbot.vercel.app/src/main.js"></script>
 </body>
 
 </html>
