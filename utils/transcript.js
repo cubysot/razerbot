@@ -36,23 +36,18 @@ async function generateHTMLTranscript(channel) {
         <div class="server-item server-loading">
             <span class="server-initial"></span>
         </div>
-
         <div class="server-item server-loading">
             <span class="server-initial"></span>
         </div>
-
         <div class="server-item server-loading">
             <span class="server-initial"></span>
         </div>
-
         <div class="server-item server-loading">
             <span class="server-initial"></span>
         </div>
-
         <div class="server-item server-loading">
             <span class="server-initial"></span>
         </div>
-
     </div>
 
     <!-- Panel de canales -->
@@ -60,8 +55,7 @@ async function generateHTMLTranscript(channel) {
         <div class="channel-header-cont">
             <div class="channel-header-container">
                 <div class="booster">
-                    <img src="https://discordresources.com/img/server/CommunityBoosted.svg" alt="Imagen no disponible"
-                        class="booster-icon">
+                    <img src="https://discordresources.com/img/server/CommunityBoosted.svg" alt="Imagen no disponible" class="booster-icon">
                 </div>
                 <div class="channel-header">RazerCraft</div>
             </div>
@@ -86,11 +80,10 @@ async function generateHTMLTranscript(channel) {
         <!-- Panel de usuario -->
         <div class="user-panel">
             <div class="user-avatar-container">
-                <img src="https://cdn.discordapp.com/avatars/852976787729940530/a73f4261580225f1f27d10e7d609a52d.webp"
-                    alt="Usuario" class="user-avatar">
-                <span class="user-status"></span>
+                <img src="${msg.author.displayAvatarURL({ size: 512 })}" class="user-avatar">
+                <span class="user-status">${msg.author.username}</span>
             </div>
-            <span class="username">Usuario</span>
+            <span class="username"></span>
             <div class="user-controls">
                 <!-- Botón de micrófono -->
                 <button class="control-btn" title="Micrófono">

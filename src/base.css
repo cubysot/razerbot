@@ -3,13 +3,13 @@
           background: #36393f;
           color: #dcddde;
           font-family: 'Whitney', sans-serif;
-          padding: 20px;
+          /* padding: 20px; */
           margin: 0;
       }
 
       /* Contenedor principal */
       .container {
-          max-width: 800px;
+          /* max-width: 800px; */
           margin: 0 auto;
       }
 
