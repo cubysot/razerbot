@@ -1,7 +1,8 @@
 const { 
   ActionRowBuilder, 
   ButtonBuilder, 
-  ButtonStyle 
+  ButtonStyle, 
+  EmbedBuilder 
 } = require('discord.js');
 const fs = require('fs');
 const { TICKET_CONFIG, IP_DATA } = require('../utils/config');
@@ -14,10 +15,16 @@ module.exports = {
       'java_ip': `**IP Java Edition**\n🔗 Conéctate a: \`${IP_DATA.JAVA}\``,
       'bedrock_ip': `**IP Bedrock Edition**\n🔗 IP: \`${IP_DATA.BEDROCK.IP}\`\n⚙️ Puerto: \`${IP_DATA.BEDROCK.PORT}\``
     };
-    
+
+    const embed = new EmbedBuilder()
+      .setTitle('🎮 Información de Conexión')
+      .setDescription(responses[interaction.customId])
+      .setColor(0x00FF00) // Color verde
+      .setFooter({ text: 'RazerCraft Network', iconURL: interaction.guild.iconURL() });
+
     await interaction.reply({
-      content: responses[interaction.customId],
-      flags: 'Ephemeral' // Cambiado de `ephemeral: true` a `flags: 'Ephemeral'`
+      embeds: [embed],
+      flags: 'Ephemeral'
     });
   },
 
@@ -26,9 +33,15 @@ module.exports = {
     const ticket = tickets[ticketId];
     
     if (!ticket) {
+      const embed = new EmbedBuilder()
+        .setTitle('❌ Error')
+        .setDescription('No se pudo encontrar la información del ticket.')
+        .setColor(0xFF0000) // Color rojo
+        .setFooter({ text: 'RazerCraft Network', iconURL: interaction.guild.iconURL() });
+
       return interaction.reply({
-        content: '❌ No se pudo encontrar la información del ticket',
-        flags: 'Ephemeral' // Cambiado de `ephemeral: true` a `flags: 'Ephemeral'`
+        embeds: [embed],
+        flags: 'Ephemeral'
       });
     }
 
@@ -57,8 +70,14 @@ module.exports = {
             .setEmoji('🔓')
         );
 
+        const embed = new EmbedBuilder()
+          .setTitle('🔒 Ticket Cerrado')
+          .setDescription('El ticket ha sido cerrado. Selecciona una acción:')
+          .setColor(0x5865F2) // Color azul
+          .setFooter({ text: 'RazerCraft Network', iconURL: interaction.guild.iconURL() });
+
         await interaction.reply({ 
-          content: 'Ticket cerrado. Acciones disponibles:',
+          embeds: [embed],
           components: [staffButtons]
         });
         break;
@@ -67,7 +86,14 @@ module.exports = {
         await interaction.deferReply();
         const transcript = await generateHTMLTranscript(interaction.channel);
         
+        const transcriptEmbed = new EmbedBuilder()
+          .setTitle('📄 Transcripción Generada')
+          .setDescription('Se ha generado la transcripción del ticket.')
+          .setColor(0x5865F2) // Color azul
+          .setFooter({ text: 'RazerCraft Network', iconURL: interaction.guild.iconURL() });
+
         await interaction.editReply({
+          embeds: [transcriptEmbed],
           files: [{
             attachment: transcript,
             name: `transcripcion-${interaction.channel.name}.html`
@@ -88,15 +114,23 @@ module.exports = {
           SendMessages: true
         });
         
-        // Obtener la categoría padre
         const parentCategory = interaction.guild.channels.cache.get(ticket.parentCategory);
         if (parentCategory) {
           await parentCategory.permissionOverwrites.edit(ticket.user, {
             ViewChannel: true
           });
         }
-      
-        await interaction.update({ components: [] });
+
+        const reopenEmbed = new EmbedBuilder()
+          .setTitle('🔓 Ticket Reabierto')
+          .setDescription('El ticket ha sido reabierto.')
+          .setColor(0x00FF00) // Color verde
+          .setFooter({ text: 'RazerCraft Network', iconURL: interaction.guild.iconURL() });
+
+        await interaction.update({ 
+          embeds: [reopenEmbed],
+          components: []
+        });
         break;
     }
   }

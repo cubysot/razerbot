@@ -32,7 +32,7 @@ module.exports = {
         .setTitle(':ticket: Soporte de RazerCraft')
         .setDescription('¡Hola! ¿Necesitas ayuda? Crea un ticket para asistencia.\n\n**¿Cómo funciona?**\n1. Haz clic en :envelope_with_arrow:\n2. Elige una categoría\n3. Describe tu consulta')
         .setColor(0x5865F2)
-        .setThumbnail('https://i.imgur.com/9ZQ7ZKL.png')
+        .setThumbnail(interaction.guild.iconURL())
         .setFooter({ text: 'Soporte 24/7 | RazerCraft Network' });
 
       const categories = [

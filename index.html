@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Transcripción Ticket-0001 - Razercraft</title>
+    <style>
+        /* Variables de color Discord */
+        :root {
+            --blurple: #7289DA;
+            --grey1: #23272A;
+            --grey2: #2C2F33;
+            --grey3: #393C43;
+            --grey4: #34373C;
+            --grey5: #99AAB5;
+            --white: #FFFFFF;
+            --red: #ED4245;
+            --green: #3BA55C;
+        }
+
+        /* Estilos base */
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--grey1);
+            color: var(--grey5);
+            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Panel de servidores */
+        .server-panel {
+            width: 72px;
+            background: var(--grey1);
+            padding: 12px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            border-right: 1px solid #000;
+        }
+
+        .server-item {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .server-item:hover {
+            border-radius: 16px;
+        }
+
+        .server-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .server-notification {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--red);
+            color: var(--white);
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 3px solid var(--grey1);
+        }
+
+        /* Panel de canales */
+        .channel-panel {
+            width: 240px;
+            background: var(--grey2);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #000;
+        }
+
+        .channel-header {
+            padding: 18px 16px;
+            color: var(--white);
+            font-weight: 600;
+            border-bottom: 1px solid var(--grey1);
+        }
+
+        .channel-list {
+            padding: 8px;
+            overflow-y: auto;
+        }
+
+        .channel-item {
+            padding: 8px 10px;
+            margin: 2px 0;
+            border-radius: 4px;
+            color: var(--grey5);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .channel-item:hover {
+            background: var(--grey4);
+            color: var(--white);
+        }
+
+        .channel-item.active {
+            background: var(--grey3);
+            color: var(--white);
+        }
+
+        .channel-loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Área de transcripción */
+        .transcription-container {
+            flex: 1;
+            background: var(--grey3);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* Estilos de mensajes */
+        .message {
+            display: flex;
+            margin: 15px 0;
+            padding: 15px;
+            background: var(--grey2);
+            border-radius: 8px;
+            max-width: 800px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .content {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .user-info {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timestamp {
+            color: var(--grey5);
+            font-size: 0.75rem;
+            font-weight: 400;
+        }
+
+        .message-text {
+            color: var(--grey5);
+            font-size: 0.95rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        /* Elementos interactivos */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--grey1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--grey4);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Panel de servidores -->
+    <div class="server-panel">
+        <div class="server-item">
+            <img src="https://cdn.discordapp.com/icons/1335013606697336928/bf5ceb01465af0a73426a411db9221f5.webp" 
+                 class="server-avatar">
+            <div class="server-notification">3</div>
+        </div>
+        
+        <div class="server-item">
+            <img src="https://cdn.discordapp.com/attachments/1335013606697336928/1335015026695868560/RAZERCRAFT_1.png" 
+                 class="server-avatar">
+        </div>
+        
+        <div class="server-item" style="background: var(--blurple); display: flex; align-items: center; justify-content: center;">
+            <span style="color: var(--white); font-weight: 500;">RC</span>
+        </div>
+    </div>
+
+    <!-- Panel de canales -->
+    <div class="channel-panel">
+        <div class="channel-header">Razercraft Support</div>
+        <div class="channel-list">
+            <div class="channel-item active">
+                <span>#ticket-0001</span>
+            </div>
+            <div class="channel-item channel-loading">
+                <span>#soporte-general</span>
+            </div>
+            <div class="channel-item channel-loading">
+                <span>#ayuda-técnica</span>
+            </div>
+            <div class="channel-item channel-loading">
+                <span>#registros</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Área de transcripción -->
+    <div class="transcription-container">
+        <div class="message">
+            <img src="https://cdn.discordapp.com/avatars/1333984045184450600/adc450205da68444ce53b9dd97e141aa.webp" class="avatar">
+            <div class="content">
+                <div class="user-info">
+                    Razerbot
+                    <span class="timestamp">31/1/2025, 5:27:27 p. m.</span>
+                </div>
+                <div class="message-text">
+                    <@1054167971506966558>
+                    <@&1226407332909551637>
+                </div>
+                <div class="message-text">
+                    📨 Ticket #0001 creado
+                </div>
+            </div>
+        </div>
+
+        <div class="message">
+            <img src="https://cdn.discordapp.com/avatars/852976787729940530/a73f4261580225f1f27d10e7d609a52d.webp" class="avatar">
+            <div class="content">
+                <div class="user-info">
+                    jasmintroste
+                    <span class="timestamp">31/1/2025, 5:31:35 p. m.</span>
+                </div>
+                <div class="message-text">
+                    ¿En el canal normal donde van los tickets no saldrán?
+                </div>
+            </div>
+        </div>
+
+        <div class="message">
+            <img src="https://cdn.discordapp.com/avatars/1054167971506966558/b017a5e04b9c8dee8006ed4b9ddc8157.webp" class="avatar">
+            <div class="content">
+                <div class="user-info">
+                    owellandry
+                    <span class="timestamp">31/1/2025, 5:33:05 p. m.</span>
+                </div>
+                <div class="message-text">
+                    <img src="https://cdn.discordapp.com/attachments/1335013606697336928/1335015026695868560/RAZERCRAFT_1.png" 
+                         style="max-width: 300px; border-radius: 8px;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Más mensajes según necesidad -->
+    </div>
+
+    <script>
+        // Interactividad básica
+        document.querySelectorAll('.channel-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelector('.channel-item.active').classList.remove('active');
+                item.classList.add('active');
+            });
+        });
+
+        // Simular carga de canales
+        setTimeout(() => {
+            document.querySelectorAll('.channel-loading').forEach(item => {
+                item.style.opacity = '1';
+                item.style.pointerEvents = 'auto';
+            });
+        }, 2000);
+    </script>
+</body>
+</html>
