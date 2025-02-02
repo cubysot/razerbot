@@ -4,7 +4,7 @@ async function generateHTMLTranscript(channel) {
   const messages = await channel.messages.fetch({ limit: 100 });
 
   const html = `
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
